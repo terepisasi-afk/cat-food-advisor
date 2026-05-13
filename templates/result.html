@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">📊 Результат подбора корма</h4>
+            </div>
+            <div class="card-body">
+                {% if recommendations %}
+                    <div class="alert alert-info mb-4">
+                        <strong>🔬 Медицинское обоснование:</strong>
+                        {% if stone_type == 'struvite' %}
+                            Для <strong>струвитов</strong> рекомендованы подкисляющие диеты (pH 6.0-6.5)
+                        {% elif stone_type == 'oxalate' %}
+                            Для <strong>оксалатов</strong> рекомендована слабощелочная среда (pH 6.8-7.4)
+                        {% endif %}
+                        {% if allergens %}
+                            <br>⚠️ Учтены аллергены: <strong>{{ allergens }}</strong>
+                        {% endif %}
+                    </div>
+
+                    <h5 class="mb-3">🏆 Рекомендованные корма:</h5>
+
+                    {% for rec in recommendations %}
+                        <div class="card mb-3 {% if loop.first %}border-success border-3{% endif %}">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {{ rec.food.name }}
+                                    <small class="text-muted">({{ rec.food.brand }})</small>
+                                    {% if loop.first %}
+                                        <span class="badge bg-success">⭐ Оптимальный выбор</span>
+                                    {% endif %}
+                                </h5>
+                                <p class="card-text">{{ rec.food.description }}</p>
+
+                                <div class="mt-2">
+                                    <strong>📋 Почему этот корм:</strong>
+                                    <ul class="mt-1">
+                                        {% for reason in rec. reasons %}
+                                            <li>{{ reason }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+
+                                <div class="mt-2">
+                                    <span class="badge bg-secondary">🎯 Рейтинг: {{ rec.score }}</span>
+                                    <span class="badge bg-info ms-2">
+                                        💰 Цена:
+                                        {% if rec.food.price_rating == 1 %}Бюджетный
+                                        {% elif rec.food.price_rating == 2 %}Средний
+                                        {% else %}Премиум{% endif %}
+                                    </span>
+                                    {% if rec.food.allergens %}
+                                        <span class="badge bg-danger ms-2">
+                                            ⚠️ Содержит: {{ rec.food.allergens }}
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    <div class="alert alert-warning mt-3">
+                        <strong>🔔 Рекомендации по диетотерапии:</strong>
+                        <ul class="mt-2 mb-0">
+                            <li>💧 Переведите кошку на влажные корма</li>
+                            <li>🚰 Обеспечьте постоянный доступ к свежей воде</li>
+                            <li>📏 Контролируйте pH мочи тест-полосками</li>
+                            <li>🩺 Повторный визит к ветеринару через 30 дней</li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <div class="alert alert-danger text-center">
+                        <strong>❌ Не найдено подходящих кормов</strong><br>
+                        Проконсультируйтесь с ветеринарным врачом.
+                    </div>
+                {% endif %}
+            </div>
+            <div class="card-footer text-center">
+                <a href="/recommend" class="btn btn-primary">🔄 Новый подбор</a>
+                <a href="/profile" class="btn btn-outline-secondary">📋 История</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

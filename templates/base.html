@@ -1,17 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>CatFoodAdvisor</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CatFoodAdvisor - Подбор корма для кошек с МКБ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar-brand { font-size: 1.5rem; }
+        .card { border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .btn { border-radius: 25px; padding: 8px 25px; }
+        footer { margin-top: 50px; background: #f8f9fa; padding: 20px; text-align: center; }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="/">🐱 CatFoodAdvisor</a>
+            <a class="navbar-brand" href="{{ url_for('index') }}">🐱 CatFoodAdvisor</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('recommend') }}">🎯 Подобрать корм</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('profile') }}">📋 История</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">🚪 Выйти ({{ current_user.username }})</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">🔐 Вход</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('register') }}">📝 Регистрация</a></li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </nav>
+
     <div class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
         {% block content %}{% endblock %}
     </div>
+
+    <footer>
+        <div class="container">
+            <p class="mb-0">© 2026 CatFoodAdvisor — Система подбора лечебного корма для кошек с МКБ</p>
+            <small>⚠️ Все рекомендации должны быть согласованы с ветеринарным врачом</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

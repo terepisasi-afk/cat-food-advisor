@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">🎯 Подбор лечебного корма</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">🧪 Тип мочевых камней</label>
+                        <select name="stone_type" class="form-select" required>
+                            <option value="struvite">Струвиты (фосфаты магния-аммония)</option>
+                            <option value="oxalate">Оксалаты кальция</option>
+                        </select>
+                        <div class="form-text text-muted">Диагноз должен быть подтверждён ветеринарным врачом</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">📅 Возраст (лет)</label>
+                            <input type="number" name="age_years" class="form-control" step="0.5" min="0" max="30" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">⚖️ Вес (кг)</label>
+                            <input type="number" name="weight_kg" class="form-control" step="0.1" min="0.5" max="20" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">⚠️ Аллергены (выберите те, которые есть у кошки)</label>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" name="allergens" value="курица" class="form-check-input" id="allergen_chicken">
+                                    <label class="form-check-label" for="allergen_chicken">🍗 Курица</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="allergens" value="говядина" class="form-check-input" id="allergen_beef">
+                                    <label class="form-check-label" for="allergen_beef">🐄 Говядина</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" name="allergens" value="пшеница" class="form-check-input" id="allergen_wheat">
+                                    <label class="form-check-label" for="allergen_wheat">🌾 Пшеница</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="allergens" value="кукуруза" class="form-check-input" id="allergen_corn">
+                                    <label class="form-check-label" for="allergen_corn">🌽 Кукуруза</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="checkbox" name="allergens" value="рыба" class="form-check-input" id="allergen_fish">
+                                    <label class="form-check-label" for="allergen_fish">🐟 Рыба</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="allergens" value="яйцо" class="form-check-input" id="allergen_egg">
+                                    <label class="form-check-label" for="allergen_egg">🥚 Яйцо</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-text text-muted mt-2">
+                            Выберите ингредиенты, на которые у кошки аллергия. Корма с этими компонентами будут исключены.
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100 py-2">🔍 Найти оптимальный корм</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="alert alert-warning mt-3">
+            <strong>⚠️ Важное примечание:</strong> Рекомендации носят информационный характер. Окончательное решение о диетотерапии принимает ветеринарный врач.
+        </div>
+    </div>
+</div>
+{% endblock %}

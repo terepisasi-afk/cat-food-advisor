@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0">📋 Моя история рекомендаций</h4>
+            </div>
+            <div class="card-body">
+                {% if history %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>📅 Дата</th>
+                                    <th>🍖 Рекомендованный корм</th>
+                                    <th>🧪 Тип камней</th>
+                                    <th>📏 Возраст</th>
+                                    <th>⚖️ Вес</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for rec in history %}
+                                    <tr>
+                                        <td>{{ rec.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                                        <td><strong>{{ rec.food.name }}</strong><br><small>{{ rec.food.brand }}</small></td>
+                                        <td>
+                                            {% if rec.stone_type == 'struvite' %}
+                                                <span class="badge bg-success">Струвиты</span>
+                                            {% elif rec.stone_type == 'oxalate' %}
+                                                <span class="badge bg-warning">Оксалаты</span>
+                                            {% else %}
+                                                <span class="badge bg-info">Ураты</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ rec.cat_age_years }} лет</td>
+                                        <td>{{ rec.cat_weight_kg }} кг</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-3 text-muted">
+                        Всего рекомендаций: <strong>{{ history|length }}</strong>
+                    </div>
+                {% else %}
+                    <div class="alert alert-secondary text-center">
+                        <p class="mb-2">📭 У вас пока нет сохранённых рекомендаций</p>
+                        <a href="/recommend" class="btn btn-primary">🎯 Подобрать корм впервые</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h6>📡 REST API</h6>
+                <p class="small text-muted">Эндпоинты API:</p>
+                <code>GET /api/foods</code> — список кормов<br>
+                <code>POST /api/recommend</code> — рекомендации<br>
+                <code>GET /api/history</code> — история
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
