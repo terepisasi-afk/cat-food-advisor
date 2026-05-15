@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from models import db, Food, Recommendation
+from models import db, Food, Recommendation # noqa
 from food_algorithm import FoodAdvisor
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
